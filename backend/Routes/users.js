@@ -9,7 +9,8 @@ router.post('/', async(req, res) => {
         email: req.body.email,
         password: req.body.password,
         role: req.body.role,
-        rollNo: req.body.rollNo
+        rollNo: req.body.rollNo,
+        roomNo: req.body.roomNo
     });
 
     try{
@@ -54,7 +55,7 @@ router.post('/checkUser', async(req, res) => {
         // }
         console.log(user);
         if(user[0].password === password) {
-            res.json(user[0]._id);
+            res.json(user[0]);
         }
     } catch(err) {
         res.json({message: err});
