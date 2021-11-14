@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/screens/home_page.dart';
+import 'package:hostel/screens/login_page.dart';
 
 void main() {
   runApp(DevicePreview(
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
-      home: HomePage(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

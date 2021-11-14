@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/common_permission.dart';
 import 'package:hostel/components/food_card.dart';
+import 'package:hostel/screens/menu_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -213,7 +214,12 @@ class _HomePageState extends State<HomePage> {
                   title:"Today's Menu",
                   date:today,
                   onPress: (){
-                    print("menu");
+                    // print("menu");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MenuPage()),
+                    );
+                    
                   },
                   image:"assets/menu.png",
                 )
