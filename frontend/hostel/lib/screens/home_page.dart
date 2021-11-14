@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/food_card.dart';
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 }
 double screenheight=0,screenwidth=0;
 class _HomePageState extends State<HomePage> {
-  String name="Sreyas";
+  String name="Sreyas S",rollNo="20PT33",roomNo="B-522";
+
   double balance=7640;
   DateTime date=DateTime.now();
   DateTime today=DateTime.now();
@@ -24,56 +26,167 @@ class _HomePageState extends State<HomePage> {
       
       // backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05),
+        padding: EdgeInsets.symmetric(horizontal: screenwidth*0.03),
         decoration: CommonGradient,
         child:Column(
           children: [
-            SizedBox(height:screenheight*0.07),
-            Container(
-              height: screenheight*0.07,
+            SizedBox(height:screenheight*0.02),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenwidth*0.02),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: screenheight*0.07,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height:screenheight*0.05,
-                          child:AutoSizeText(
-                            "Hi $name",
-                            presetFontSizes: [30,28,26,24,22,20],
-                            style:TextStyle(
-                              fontWeight: FontWeight.bold,
-                              
-                            )
-                          )
-                        ),
-                        Container(
-                          height:screenheight*0.02,
-                          child:AutoSizeText(
-                            "Welcome back",
-                            presetFontSizes: [26,24,22,20,18,16],
-                            style:TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color:Colors.blueGrey[600],
-                            )
-                          )
-                          
-                        )
-                      ],
+                children : [
+                  InkWell(
+                    onTap: (){
+                      print("notice");
+                    },
+                    child: Icon(
+                      Icons.notifications_active,
+                      size: screenheight*0.04,
+                      color:Colors.blueGrey[900],
                     ),
                   ),
-                  CircleAvatar(
-                    radius: screenheight*0.03,
-                    backgroundImage: AssetImage('assets/profile.jpg'),
+                  InkWell(
+                    onTap: (){
+                      print("settings");
+                    },
+                    child: Icon(
+                      Icons.settings,
+                      size: screenheight*0.04,
+                      color:Colors.blueGrey[900],
+                    )
+                    
                   )
-                ],
+                ]
               ),
             ),
+            Stack(
+              children: [
+                
+                Container(
+                  margin: EdgeInsets.only(top: screenheight*0.08),
+                  padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05,vertical:screenheight*0.02),
+                   height: screenheight*0.2,
+                   decoration: BoxDecoration(
+                  color: Colors.green[50],
+                  borderRadius: BorderRadius.circular(16.0),
+                  
+                  ),
+                  child:Column(
+                    children: [
+                      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height:screenheight*0.03,
+                                child: AutoSizeText(
+                                  "Name",
+                                  presetFontSizes: [26,22,18,12],
+                                  style: TextStyle(
+                                    color:Colors.blueGrey[900],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: screenwidth*0.35,
+                                child: AutoSizeText(
+                                  name,
+                                  presetFontSizes: [30,26,22,18,14],
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                height:screenheight*0.03,
+                                child: AutoSizeText(
+                                  "Roll No",
+                                  presetFontSizes: [26,22,18,12],
+                                  style: TextStyle(
+                                    color:Colors.blueGrey[900],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: screenwidth*0.3,
+                                child: AutoSizeText(
+                                  
+                                  rollNo,
+                                  textAlign: TextAlign.right,
+                                  presetFontSizes: [30,26,22,18,14],
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(height:screenheight*0.005),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height:screenheight*0.03,
+                            child: AutoSizeText(
+                              "Room No",
+                              presetFontSizes: [26,22,18,12],
+                              style: TextStyle(
+                                color:Colors.blueGrey[900],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: screenwidth*0.3,
+                            child: AutoSizeText(
+                              
+                              roomNo,
+                              textAlign: TextAlign.center,
+                              
+                              presetFontSizes: [30,26,22,18,14],
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                      
+                      
+                    ],
+                  )
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                child: CircleAvatar(
+                  radius: screenheight*0.055,
+                  backgroundColor: Colors.greenAccent,
+                  child: CircleAvatar(
+                    radius: screenheight*0.045,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage('assets/profile.jpg'),
+                  ),
+                )
+              ),
+              ]
+            ),
+            
             SizedBox(height:screenheight*0.05),
             
             Row(
@@ -99,7 +212,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height:screenheight*0.03),
             Container(
               padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05,vertical: screenheight*0.03),
-              height: screenheight*0.3,
+              height: screenheight*0.25,
               width: screenwidth*0.9,
               decoration:BoxDecoration(
                 color:Colors.green[100],
