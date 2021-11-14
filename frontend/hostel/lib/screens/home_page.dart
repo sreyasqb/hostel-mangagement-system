@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/common_permission.dart';
+import 'package:hostel/components/create_post.dart';
 import 'package:hostel/components/food_card.dart';
 import 'package:hostel/constants/constants.dart';
 import 'package:hostel/models/user_model.dart';
@@ -284,7 +286,15 @@ class _HomePageState extends State<HomePage> {
                   CommonPermission(
                     title:"WEEKEND PERMISSION",
                     onPress: (){
-                      print("weekend");
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          
+                          return BackdropFilter(
+                            filter:ImageFilter.blur(sigmaX: 6,sigmaY: 6),
+                            child: CreatePost(name:name),
+                          );
+                        });
                     }
                   ),
                   CommonPermission(
