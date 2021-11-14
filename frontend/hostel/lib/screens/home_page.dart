@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     print(response.body);
     Map userJson=jsonDecode(response.body);
     setState(() {
-      name=userJson['name'];
+      name=userJson['username'];
       rollNo=userJson['rollNo'];
       roomNo=userJson['roomNo'];
     });
