@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
     roomNo: {
         type: String,
         required: true
+    },
+    balance: {
+        type: Number,
+        required: true
     }
     //hash: String,
     //salt: String
