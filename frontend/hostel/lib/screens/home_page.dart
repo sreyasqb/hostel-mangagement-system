@@ -5,6 +5,7 @@ import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/common_permission.dart';
 import 'package:hostel/components/food_card.dart';
 import 'package:hostel/screens/menu_page.dart';
+import 'package:hostel/screens/mess_token_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ double screenheight=0,screenwidth=0;
 class _HomePageState extends State<HomePage> {
   String name="Sreyas S",rollNo="20PT33",roomNo="B-522";
 
-  double balance=7640;
+  
   DateTime date=DateTime.now();
   DateTime today=DateTime.now();
   @override
@@ -206,7 +207,11 @@ class _HomePageState extends State<HomePage> {
                 FoodCard(date: date,
                   image:"assets/hot-pot.png",
                   onPress: (){
-                    print("tokens");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MessTokenPage()),
+                    );
+                    // print("tokens");
                   },
                   title:"MESS TOKENS",
                 ),

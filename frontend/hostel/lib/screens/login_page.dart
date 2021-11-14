@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:hostel/components/common_gradient.dart';
+import 'package:hostel/constants/constants.dart';
 import 'package:hostel/screens/home_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,24 +22,24 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String connectUrl="";
   
-  // Future<http.Response> sendInfo(String email,String password) async {
+  Future<http.Response> sendInfo(String email,String password) async {
 
-  //   final response = await http.post(
-  //   Uri.parse('$baseurl/$connectUrl/login'),
-  //   headers: <String, String>{
-  //     'Content-Type': 'application/json; charset=UTF-8',
-  //   },
-  //   body: jsonEncode(<String, String>{
-  //     'email':email,
-  //     'password':password,
-  //     'id':65.toString(),
+    final response = await http.post(
+    Uri.parse('$baseurl/$connectUrl/login'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email':email,
+      'password':password,
+      'id':65.toString(),
       
-  //   }),
+    }),
     
-  // );
-  // return response;
+  );
+  return response;
  
-  // }
+  }
   
     
   
@@ -358,36 +359,36 @@ class _LoginPageState extends State<LoginPage> {
               );
               
               
-              // http.Response response = await sendInfo(email.text, password.text);
-              // Map responseData=jsonDecode(response.body);
+              http.Response response = await sendInfo(email.text, password.text);
+              Map responseData=jsonDecode(response.body);
 
               
               
 
               
-              // if (response.statusCode==200){
-              //   if (responseData['token']!=null){
-              //     final prefs=await SharedPreferences.getInstance();
-              //     prefs.setString('token',responseData['token']);
-              //     prefs.setString('userType',connectUrl);
-              //     prefs.setString('userID',responseData['id']);
-              //     print("Token Success");
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder:(context)=>Classes()
-              //       )
-              //     );
-              //   }              
-              // }
-              // else {
+              if (response.statusCode==200){
+                if (responseData['token']!=null){
+                  final prefs=await SharedPreferences.getInstance();
+                  prefs.setString('token',responseData['token']);
+                  prefs.setString('userType',connectUrl);
+                  prefs.setString('userID',responseData['id']);
+                  print("Token Success");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:(context)=>HomePage()
+                    )
+                  );
+                }              
+              }
+              else {
                   
-              //     print(invalidCredentials);
-              //     setState(() {
-              //       invalidCredentials=true;
+                  print(invalidCredentials);
+                  setState(() {
+                    invalidCredentials=true;
                     
-              //     });
-              // }
+                  });
+              }
               
               // getInfo();
             },
