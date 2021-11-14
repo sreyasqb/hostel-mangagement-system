@@ -7,6 +7,6 @@ BoxDecoration CommonGradient=BoxDecoration(
     end: Alignment.bottomLeft,
     // Add one stop for each color. Stops should increase from 0 to 1
     stops: [0.1,0.9],
-    colors: [Colors.greenAccent,Colors.lightGreenAccent]
+    colors: [/*Colors.white,*/Colors.greenAccent,Colors.lightGreenAccent]
   ),
 );
