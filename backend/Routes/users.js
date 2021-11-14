@@ -30,13 +30,35 @@ router.get('/', async(req, res) => {
     }
 });
 
-// Get a specific user
+// Get a specific user by _id
 router.get('/:uniqueID', async(req, res) => {
     try {
         const user = await User.findById(req.params.uniqueID);
         res.json(user);
     } catch(err) {
         res.json({message: err});
+    }
+});
+
+// Get _id by email and password
+router.post('/checkUser', async(req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    console.log(email);
+    console.log(password);
+    try {
+        const user = await User.find({'email': email});
+        //res.json(user);
+        // if(user && user.password === password) {
+        //     res.json(user._id);
+        // }
+        console.log(user);
+        if(user[0].password === password) {
+            res.json(user[0]._id);
+        }
+    } catch(err) {
+        res.json({message: err});
+        return;
     }
 });
 
