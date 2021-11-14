@@ -57,7 +57,7 @@ class _MenuPageState extends State<MenuPage> {
                         children: breakfast.map((item) {
                           return Container(
 
-                          ),
+                          );
                         }).toList(),
                       ),
                     )
