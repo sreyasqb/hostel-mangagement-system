@@ -31,11 +31,17 @@ router.get('/', async(req, res) => {
     }
 });
 
-// Get a specific user by _id
+// Get a user details by _id
 router.get('/:uniqueID', async(req, res) => {
     try {
         const user = await User.findById(req.params.uniqueID);
-        res.json(user);
+        res.json({
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            rollNo: user.rollNo,
+            roomNo: user.roomNo,
+        });
     } catch(err) {
         res.json({message: err});
     }
