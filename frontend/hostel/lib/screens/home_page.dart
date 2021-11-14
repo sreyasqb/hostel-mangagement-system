@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/common_permission.dart';
 import 'package:hostel/components/food_card.dart';
+import 'package:hostel/constants/constants.dart';
+import 'package:hostel/models/user_model.dart';
 import 'package:hostel/screens/menu_page.dart';
 import 'package:hostel/screens/mess_token_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   
@@ -15,12 +20,52 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 double screenheight=0,screenwidth=0;
+String id="hi";
+UserModel user=UserModel(name: "name", rollNo: "rollNo", roomNo: "roomNo", type: "type",id:"",email:"");
 class _HomePageState extends State<HomePage> {
+
+
+
+  
   String name="Sreyas S",rollNo="20PT33",roomNo="B-522";
 
   
   DateTime date=DateTime.now();
   DateTime today=DateTime.now();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfo();
+  }
+
+  void getInfo() async {
+    final prefs=await SharedPreferences.getInstance();
+    setState(() {
+      id=prefs.getString('userID').toString();
+    });
+    http.Response response=await http.get(Uri.parse("$baseurl/users/$id"),
+      
+    );
+    print(response.body);
+    Map userJson=jsonDecode(response.body);
+    setState(() {
+      name=userJson['username'];
+      rollNo=userJson['rollNo'];
+      roomNo=userJson['roomNo'];
+    });
+    // setState(() {
+    //   user=UserModel(
+    //     name:userJson['username']
+    //     ,email:userJson['email'],
+    //     id:id,
+    //   rollNo : userJson['rollNo']
+    //   ,roomNo :userJson['roomNo']
+    //   );
+    // });
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;
