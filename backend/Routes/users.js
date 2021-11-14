@@ -61,7 +61,7 @@ router.post('/checkUser', async(req, res) => {
         // }
         console.log(user);
         if(user[0].password === password) {
-            res.json(user[0]);
+            res.json({_id: user[0]._id});
         }
     } catch(err) {
         res.json({message: err});
