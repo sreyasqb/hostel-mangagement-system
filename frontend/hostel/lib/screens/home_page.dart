@@ -16,11 +16,20 @@ class HomePage extends StatefulWidget {
 }
 double screenheight=0,screenwidth=0;
 class _HomePageState extends State<HomePage> {
+
+
+
+  
   String name="Sreyas S",rollNo="20PT33",roomNo="B-522";
 
   
   DateTime date=DateTime.now();
   DateTime today=DateTime.now();
+
+  void getInfo(){
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     screenwidth = MediaQuery.of(context).size.width;

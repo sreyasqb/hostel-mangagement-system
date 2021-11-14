@@ -25,14 +25,14 @@ class _LoginPageState extends State<LoginPage> {
   Future<http.Response> sendInfo(String email,String password) async {
 
     final response = await http.post(
-    Uri.parse('$baseurl/$connectUrl/login'),
+    Uri.parse('$baseurl/users/checkUser'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
       'email':email,
       'password':password,
-      'id':65.toString(),
+      // 'id':65.toString(),
       
     }),
     
@@ -353,33 +353,38 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap:() async {
               
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => HomePage()),
+              // );
               
-              
+              // print(email.text);
+              // print(password.text);
               http.Response response = await sendInfo(email.text, password.text);
+              // print(response.body);
+
+
               Map responseData=jsonDecode(response.body);
+              print(responseData['_id']);
+             
+              
+              
+              
 
               
               
-
-              
-              if (response.statusCode==200){
-                if (responseData['token']!=null){
-                  final prefs=await SharedPreferences.getInstance();
-                  prefs.setString('token',responseData['token']);
-                  prefs.setString('userType',connectUrl);
-                  prefs.setString('userID',responseData['id']);
-                  print("Token Success");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:(context)=>HomePage()
-                    )
-                  );
-                }              
+              if (responseData['_id']!=null){
+                final prefs=await SharedPreferences.getInstance();
+                
+                prefs.setString('userID',responseData['_id']);
+                print("Login Success");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:(context)=>HomePage()
+                  )
+                );
+                            
               }
               else {
                   

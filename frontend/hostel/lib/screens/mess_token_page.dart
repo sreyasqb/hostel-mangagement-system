@@ -1,15 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
+import 'package:hostel/components/food_card.dart';
 import 'package:hostel/screens/home_page.dart' show screenheight,screenwidth;
 
 class MessTokenPage extends StatelessWidget {
   double balance=7640;
+  DateTime date=DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: screenwidth*0.02),
+        padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05),
         height:screenheight,
         width:screenwidth,
         decoration: CommonGradient,
@@ -54,10 +56,49 @@ class MessTokenPage extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: screenheight*0.05),
             Column(
               children: [
                 Row(
-                  children: [],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    
+                    FoodCard(
+                      onPress: (){},
+                      date:date,
+                      title:"CHILLY GOBI",
+                      image: "assets/hot-pot.png",
+                      
+                    ),
+                    FoodCard(
+                      onPress: (){},
+                      date:date,
+                      title:"CHICKEN LEG",
+                      image: "assets/chicken.png",
+                      
+                    )
+                  ],
+                ),
+                SizedBox(height: screenheight*0.04,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    
+                    FoodCard(
+                      onPress: (){},
+                      date:date,
+                      title:"OMLETTE",
+                      image: "assets/omelette.png",
+                      
+                    ),
+                    FoodCard(
+                      onPress: (){},
+                      date:date,
+                      title:"ROTI PANEER",
+                      image: "assets/roti.png",
+                      
+                    )
+                  ],
                 )
               ],
             )
