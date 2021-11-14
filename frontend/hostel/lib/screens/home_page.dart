@@ -300,13 +300,29 @@ class _HomePageState extends State<HomePage> {
                   CommonPermission(
                     title:"DELAY PERMISSION",
                     onPress: (){
-                      print("delay");
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          
+                          return BackdropFilter(
+                            filter:ImageFilter.blur(sigmaX: 6,sigmaY: 6),
+                            child: CreatePost(name:name),
+                          );
+                        });
                     }
                   ),
                   CommonPermission(
                     title:"ROOM ALLOCATION",
                     onPress: (){
-                      print("room allocation");
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          
+                          return BackdropFilter(
+                            filter:ImageFilter.blur(sigmaX: 6,sigmaY: 6),
+                            child: CreatePost(name:name),
+                          );
+                        });
                     }
                   ),
                   
