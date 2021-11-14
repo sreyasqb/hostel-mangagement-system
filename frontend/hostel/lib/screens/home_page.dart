@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/components/common_gradient.dart';
+import 'package:hostel/components/common_permission.dart';
 import 'package:hostel/components/food_card.dart';
 
 
@@ -66,18 +67,18 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   margin: EdgeInsets.only(top: screenheight*0.08),
                   padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05,vertical:screenheight*0.02),
-                   height: screenheight*0.2,
+                   height: screenheight*0.21,
                    decoration: BoxDecoration(
                   color: Colors.green[50],
                   borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  )
-                ]
+                    boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    )
+                  ]
                   
                   ),
                   child:Column(
@@ -144,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      SizedBox(height:screenheight*0.005),
+                      SizedBox(height:screenheight*0.007),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -160,6 +161,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Container(
                             width: screenwidth*0.3,
+                            height: screenheight*0.05,
                             child: AutoSizeText(
                               
                               roomNo,
@@ -219,24 +221,31 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height:screenheight*0.03),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: screenwidth*0.05,vertical: screenheight*0.03),
-              height: screenheight*0.25,
-              width: screenwidth*0.9,
-              decoration:BoxDecoration(
-                color:Colors.green[100],
-                borderRadius: BorderRadius.circular(20),
-                
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  )
-                ]
+              height: screenheight*0.26,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CommonPermission(
+                    title:"WEEKEND PERMISSION",
+                    onPress: (){
+                      print("weekend");
+                    }
+                  ),
+                  CommonPermission(
+                    title:"DELAY PERMISSION",
+                    onPress: (){
+                      print("delay");
+                    }
+                  ),
+                  CommonPermission(
+                    title:"ROOM ALLOCATION",
+                    onPress: (){
+                      print("room allocation");
+                    }
+                  ),
+                  
+                ],
               ),
-              
-              
             )
           ]
         ),
@@ -258,4 +267,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
 
