@@ -5,10 +5,10 @@ import 'package:hostel/screens/home_page.dart';
 import 'package:hostel/screens/login_page.dart';
 
 void main() {
-  runApp(DevicePreview(
+  runApp(/*DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(), // Wrap your app
-  )/*MyApp()*/);
+  )*/MyApp());
 }
 
 
