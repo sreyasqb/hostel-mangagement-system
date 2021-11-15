@@ -5,8 +5,9 @@ import 'package:hostel/components/food_card.dart';
 import 'package:hostel/screens/home_page.dart' show screenheight,screenwidth;
 
 class MessTokenPage extends StatelessWidget {
-  double balance=7640;
+  int balance;
   DateTime date=DateTime.now();
+  MessTokenPage({required this.balance});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

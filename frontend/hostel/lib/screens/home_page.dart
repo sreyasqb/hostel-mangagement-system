@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,10 @@ import 'package:hostel/screens/mess_token_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+
+
+
+
 class HomePage extends StatefulWidget {
   
 
@@ -26,10 +31,12 @@ String id="hi";
 UserModel user=UserModel(name: "name", rollNo: "rollNo", roomNo: "roomNo", type: "type",id:"",email:"");
 class _HomePageState extends State<HomePage> {
 
-
-
+  // File _image;
+  
+  
   
   String name="Sreyas S",rollNo="20PT33",roomNo="B-522";
+  int balance=0;
 
   
   DateTime date=DateTime.now();
@@ -55,6 +62,7 @@ class _HomePageState extends State<HomePage> {
       name=userJson['username'];
       rollNo=userJson['rollNo'];
       roomNo=userJson['roomNo'];
+      balance=(userJson['balance']);
     });
     // setState(() {
     //   user=UserModel(
@@ -256,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                   onPress: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MessTokenPage()),
+                      MaterialPageRoute(builder: (context) => MessTokenPage(balance:balance)),
                     );
                     // print("tokens");
                   },
