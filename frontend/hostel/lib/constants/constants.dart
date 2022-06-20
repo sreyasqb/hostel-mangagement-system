@@ -1,2 +1,8 @@
 
-String baseurl="http://10.0.2.2:3000";
+String baseurl="https://hostel-dbms.herokuapp.com/";
+enum UserType {
+  none,
+  resident,
+  supervisor,
+  residentTutor 
+}
