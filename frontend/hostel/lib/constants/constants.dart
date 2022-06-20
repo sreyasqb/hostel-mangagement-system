@@ -6,3 +6,6 @@ enum UserType {
   supervisor,
   residentTutor 
 }
+Map <String,String> headers= <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    };

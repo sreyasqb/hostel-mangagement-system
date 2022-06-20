@@ -37,7 +37,7 @@ String id = "hi";
 class _HomePageState extends State<HomePage> {
   // File _image;
 
-  String name = "Sreyas S", rollNo = "20PT33", roomNo = "B-522";
+  String name = "Sreyas S", rollNo = "20PT01", roomNo = "B-522";
   int balance = 7640;
 
   // Provider.of(context).
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
       id = prefs.getString('userID').toString();
     });
     http.Response response = await http.get(
-      Uri.parse("$baseurl/user/20PT33"),
+      Uri.parse("$baseurl/user/20PT01"),
     );
     print(response.body);
     Map userJson = jsonDecode(response.body);

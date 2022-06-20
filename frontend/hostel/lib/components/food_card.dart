@@ -8,11 +8,12 @@ class FoodCard extends StatelessWidget {
   final DateTime date;
   final String image;
   final Function onPress;
+  bool? tokenBought;
   FoodCard(
       {required this.date,
       required this.image,
       required this.onPress,
-      required this.title});
+      required this.title, this.tokenBought});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class FoodCard extends StatelessWidget {
         height: height * 0.3,
         width: width * 0.43,
         decoration: BoxDecoration(
-            color: Colors.green[100],
+
+            color: tokenBought!=null && tokenBought!?Colors.red:Colors.green[100],
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(

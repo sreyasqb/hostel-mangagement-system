@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/food_card.dart';
 import 'package:hostel/screens/home_page.dart' show height, width;
@@ -12,10 +13,6 @@ import '../constants/constants.dart';
 import '../provider/user_provider.dart';
 
 class MessTokenPage extends StatefulWidget {
-
-
-  
-
   int balance;
 
   MessTokenPage({required this.balance});
@@ -26,13 +23,67 @@ class MessTokenPage extends StatefulWidget {
 
 class _MessTokenPageState extends State<MessTokenPage> {
   DateTime date = DateTime.now();
-  void buyToken(bool nonVeg) async {
+  bool tokenBought=false;
+
+  @override
+  void initState() {
+    checkTokenBought();
+    super.initState();
+  }
+
+  void checkTokenBought() async{
     http.Response response = await http.get(
       Uri.parse("$baseurl/tokens"),
     );
     List tokenJson = jsonDecode(response.body);
-    for (Map token in tokenJson){
-      if(token["token_id"]!=Provider.of<UserData>(context).myUser.id){}
+    bool flag = false;
+    for (Map token in tokenJson) {
+      // print('${token["owner_id"]} ---- ${Provider.of<UserData>(context,listen:false).myUser.id}');
+      if (token["owner_id"] == Provider.of<UserData>(context,listen:false).myUser.id) {
+        flag = true;
+        break;
+      }
+    }
+    setState(() {
+      tokenBought = flag;
+    });
+  }
+
+  void buyToken(bool nonVeg) async {
+    
+    if (!tokenBought) {
+      http.Response response = await http.post(Uri.parse('$baseurl/new/token'),
+          headers: headers,
+          body: jsonEncode({
+            "id":102,
+            "date":date.toString(),
+            "owner":Provider.of<UserData>(context,listen:false).myUser.id,
+            "non_veg":nonVeg
+          }));
+      Fluttertoast.showToast(
+        msg: "You bought a token",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.blueGrey[900],
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+      print(response.body);
+
+    }
+    else{
+      print('failed');
+      // Fluttertoast.showToast(msg: 'Failed');
+      Fluttertoast.showToast(
+        msg: "You have already bought a token",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
     }
   }
 
@@ -87,16 +138,21 @@ class _MessTokenPageState extends State<MessTokenPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FoodCard(
-                        onPress: () async {
-
+                        onPress: (){
+                          buyToken(false);
                         },
                         date: date,
+                        tokenBought: tokenBought,
                         title: "VEG TOKEN",
                         image: "assets/hot-pot.png",
                       ),
                       FoodCard(
-                        onPress: () {},
+                        onPress: () {
+                          buyToken(true);
+                        
+                        },
                         date: date,
+                        tokenBought: tokenBought,
                         title: "NON-VEG ",
                         image: "assets/chicken.png",
                       )
