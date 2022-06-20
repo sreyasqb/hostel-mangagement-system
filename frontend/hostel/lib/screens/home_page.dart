@@ -91,14 +91,7 @@ class _HomePageState extends State<HomePage> {
     //   department: 'amcs',
     //   course: 'cs',
     // ));
-    var myUser;
-    if (user.uType == UserType.resident) {
-      myUser = user.resident as Resident;
-    } else if (user.uType == UserType.supervisor) {
-      myUser = user.supervisor as Supervisor;
-    } else if (user.uType == UserType.residentTutor) {
-      myUser = user.residentTutor as ResidentTutor;
-    }
+    
 
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
@@ -177,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     width: width * 0.35,
                                     child: AutoSizeText(
-                                      myUser!.name,
+                                      user.myUser.name,
                                       presetFontSizes: [30, 26, 22, 18, 14],
                                       maxLines: 1,
                                       style: TextStyle(
@@ -205,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     width: width * 0.3,
                                     child: AutoSizeText(
-                                      myUser.id,
+                                      user.myUser.id,
                                       textAlign: TextAlign.right,
                                       presetFontSizes: [30, 26, 22, 18, 14],
                                       maxLines: 1,
