@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hostel/components/text_container.dart';
 
 class AttendanceTile extends StatefulWidget {
-  const AttendanceTile({Key? key}) : super(key: key);
+  final String name;
+  final String id;
+  final String roomNo;
+  final Function(int,String) onTap; 
+  AttendanceTile({required this.name,required this.id,required this.roomNo,required this.onTap});
 
   @override
   State<AttendanceTile> createState() => _AttendanceTileState();
@@ -16,9 +20,12 @@ class _AttendanceTileState extends State<AttendanceTile> {
     double height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: (){
+        
         setState(() {
           loop+=1;
         });
+        widget.onTap(loop,widget.id);
+        
       },
       child: Container(
         width:width*0.9,
@@ -43,12 +50,12 @@ class _AttendanceTileState extends State<AttendanceTile> {
             Column(
               children: [
                 TextContainer(
-                  text: "AGILAN",
+                  text: widget.name,
                  presetFontSizes: [24,22,20,18,16],
                  width:width*0.5,
                 ),
                 TextContainer(
-                  text: "B-522",
+                  text: widget.roomNo,
                  presetFontSizes: [24,22,20,18,16],
                  width:width*0.5,
                 ),

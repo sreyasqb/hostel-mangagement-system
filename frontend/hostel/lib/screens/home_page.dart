@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       id = prefs.getString('userID').toString();
     });
     http.Response response = await http.get(
-      Uri.parse("$baseurl/user/20PT01"),
+      Uri.parse("$baseurl/resident/20PT01"),
     );
     print(response.body);
     Map userJson = jsonDecode(response.body);
@@ -68,12 +68,12 @@ class _HomePageState extends State<HomePage> {
         UserType.resident,
         Resident(
           name: userJson['name'],
-          roomNo: 'B-523',
+          roomNo: userJson['room_no'],
           id: userJson['id'],
           email: userJson["email"],
           phoneNo: userJson["phone_no"],
-          department: 'amcs',
-          course: 'cs',
+          department: userJson["department"],
+          course: userJson['course'],
         ));
     setState(() {
       loading = false;
@@ -232,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                                 width: width * 0.3,
                                 height: height * 0.05,
                                 child: AutoSizeText(
-                                  roomNo,
+                                  user.uType == UserType.supervisor?"":user.myUser.roomNo,
                                   textAlign: TextAlign.center,
                                   presetFontSizes: [30, 26, 22, 18, 14],
                                   maxLines: 1,

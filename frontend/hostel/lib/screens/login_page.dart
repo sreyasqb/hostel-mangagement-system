@@ -22,15 +22,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String connectUrl="";
   
-  Future<http.Response> sendInfo(String email,String password) async {
+  Future<http.Response> sendInfo(String id,String password) async {
 
     final response = await http.post(
-    Uri.parse('$baseurl/users/checkUser'),
+    Uri.parse('$baseurl/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'email':email,
+      'id':id,
       'password':password,
       // 'id':65.toString(),
       
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   
     
   
-  TextEditingController email=TextEditingController();
+  TextEditingController id=TextEditingController();
   TextEditingController password=TextEditingController();
   TextEditingController token=TextEditingController();
   bool invalidCredentials=false;
@@ -127,7 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontSize: screenheight * 0.025,
                 ),
-                controller: email,
+                controller: id,
+
                 cursorColor: Colors.black,
                 
                 textAlign: TextAlign.left,
@@ -140,8 +141,8 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: screenheight*0.025
                   )
                 ),
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
+                // maxLines: null,
+                // keyboardType: TextInputType.multiline,
                   
                 ),
               ),
@@ -360,12 +361,14 @@ class _LoginPageState extends State<LoginPage> {
               
               // print(email.text);
               // print(password.text);
-              http.Response response = await sendInfo(email.text, password.text);
-              // print(response.body);
+              http.Response response = await sendInfo(id.text, password.text);
+              print(response.body);
+              // print(response.statusCode);
 
 
               Map responseData=jsonDecode(response.body);
-              print(responseData['_id']);
+              // print(responseData['id']);
+              // print(responseData['id']);
              
               
               
@@ -373,15 +376,20 @@ class _LoginPageState extends State<LoginPage> {
 
               
               
-              if (responseData['_id']!=null){
+              if (responseData.containsKey('id')){
                 final prefs=await SharedPreferences.getInstance();
                 
-                prefs.setString('userID',responseData['_id']);
+                prefs.setString('userID',responseData['id']);
                 print("Login Success");
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder:(context)=>HomePage()
+                    builder:(context)=>HomePage(
+                      userID:responseData['id'],
+                      type:responseData['type']
+                    )
+                    )
                   )
                 );
                             

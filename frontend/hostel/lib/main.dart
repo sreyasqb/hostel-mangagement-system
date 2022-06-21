@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
         useInheritedMediaQuery: true,
         // locale: DevicePreview.locale(context),
         home: SafeArea(
-          child:HomePage()
+          child:LoginPage(),
+          // child:HomePage()
           // child:AttendancePage()
         ),
         // home:
