@@ -13,7 +13,10 @@ class AttendancePage extends StatefulWidget {
 }
 
 class _AttendancePageState extends State<AttendancePage> {
+  
+  void getResidents() async {
 
+  }
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;

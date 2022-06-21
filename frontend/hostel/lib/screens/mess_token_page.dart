@@ -7,6 +7,7 @@ import 'package:hostel/components/common_gradient.dart';
 import 'package:hostel/components/food_card.dart';
 import 'package:hostel/screens/home_page.dart' show height, width;
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/constants.dart';
@@ -28,12 +29,13 @@ class _MessTokenPageState extends State<MessTokenPage> {
   @override
   void initState() {
     checkTokenBought();
+    // print(DateFormat('y-M-d').format(date));
     super.initState();
   }
 
   void checkTokenBought() async{
     http.Response response = await http.get(
-      Uri.parse("$baseurl/tokens"),
+      Uri.parse("$baseurl/tokens/date/${DateFormat('y-M-d').format(date)}"),
     );
     List tokenJson = jsonDecode(response.body);
     bool flag = false;

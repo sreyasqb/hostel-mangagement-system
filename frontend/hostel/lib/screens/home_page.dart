@@ -13,6 +13,7 @@ import 'package:hostel/components/food_card.dart';
 import 'package:hostel/constants/constants.dart';
 import 'package:hostel/models/user_model.dart';
 import 'package:hostel/provider/user_provider.dart';
+import 'package:hostel/screens/attendance_page.dart';
 import 'package:hostel/screens/menu_page.dart';
 import 'package:hostel/screens/mess_token_page.dart';
 import 'package:provider/provider.dart';
@@ -320,7 +321,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print("scanner");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AttendancePage()));
           },
           backgroundColor: Colors.blueGrey[900],
           child: Icon(
