@@ -68,13 +68,15 @@ class _HomePageState extends State<HomePage> {
     });
 
     type = type.toLowerCase();
-    if (type=="resident tutor"){
-      type="rt";
+    if (type == "resident tutor") {
+      type = "rt";
+    } else if (type == "office staff") {
+      type = "staff";
     }
     http.Response response = await http.get(
       Uri.parse("$baseurl/$type/$userID"),
     );
-    print(response.body);
+    // print(response.body);
     Map userJson = jsonDecode(response.body);
     if (type == "resident") {
       Provider.of<UserData>(context, listen: false).setUserType(
@@ -88,31 +90,41 @@ class _HomePageState extends State<HomePage> {
             department: userJson["department"],
             course: userJson['course'],
           ));
-    }
-    else if (type=="supervisor"){
+    } else if (type == "supervisor") {
       Provider.of<UserData>(context, listen: false).setUserType(
           UserType.supervisor,
           Supervisor(
-            name: userJson['name'],
-            id: userJson['id'],
-            email: userJson["email"],
-            phoneNo: userJson["phone_no"],
-            block:userJson["block_id"]
-            // department: userJson["department"],
-          ));
-    }
-    else if (type=="rt"){
+              name: userJson['name'],
+              id: userJson['id'],
+              email: userJson["email"],
+              phoneNo: userJson["phone_no"],
+              block: userJson["block_id"]
+              // department: userJson["department"],
+              ));
+    } else if (type == "rt") {
       Provider.of<UserData>(context, listen: false).setUserType(
           UserType.residentTutor,
           ResidentTutor(
-            name: userJson['name'],
-            id: userJson['id'],
-            email: userJson["email"],
-            phoneNo: userJson["phone_no"],
-            roomNo: userJson["room_no"]
-            // department: userJson["department"],
-            // course: userJson['course'],
-          ));
+              name: userJson['name'],
+              id: userJson['id'],
+              email: userJson["email"],
+              phoneNo: userJson["phone_no"],
+              roomNo: userJson["room_no"]
+              // department: userJson["department"],
+              // course: userJson['course'],
+              ));
+    } else if (type == "staff") {
+      Provider.of<UserData>(context, listen: false).setUserType(
+          UserType.staff,
+          Staff(
+              name: userJson['name'],
+              id: userJson['id'],
+              email: userJson["email"],
+              phoneNo: userJson["phone_no"],
+              events: userJson['Events']
+              // department: userJson["department"],
+              // course: userJson['course'],
+              ));
     }
     setState(() {
       loading = false;
@@ -154,10 +166,7 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EventsPage()
-                                  
-                              ),
-                            
+                                  builder: (context) => EventsPage()),
                             );
                           },
                           child: Icon(
@@ -168,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                             onTap: () {
-                              print("settings");
+                              // print("settings");
                             },
                             child: Icon(
                               Icons.settings,
@@ -266,7 +275,9 @@ class _HomePageState extends State<HomePage> {
                                 child: AutoSizeText(
                                   user.uType == UserType.supervisor
                                       ? "Block"
-                                      : "Room No",
+                                      : user.uType != UserType.staff
+                                          ? "Room No"
+                                          : "",
                                   presetFontSizes: [26, 22, 18, 12],
                                   style: TextStyle(
                                     color: Colors.blueGrey[900],
@@ -279,7 +290,9 @@ class _HomePageState extends State<HomePage> {
                                 child: AutoSizeText(
                                   user.uType == UserType.supervisor
                                       ? user.myUser.block
-                                      : user.myUser.roomNo,
+                                      : user.uType != UserType.staff
+                                          ? user.myUser.roomNo
+                                          : "",
                                   textAlign: TextAlign.center,
                                   presetFontSizes: [30, 26, 22, 18, 14],
                                   maxLines: 1,
@@ -323,63 +336,73 @@ class _HomePageState extends State<HomePage> {
                         },
                         title: "MESS TOKENS",
                       ),
-                      if (user.uType == UserType.resident)
-                      SizedBox(width:width*0.05),
+                    if (user.uType == UserType.resident)
+                      SizedBox(width: width * 0.05),
                     // if (user.uType == UserType.resident)
-                      FoodCard(
-                        title: "Today's Menu",
-                        date: today,
-                        onPress: () {
-                          // print("menu");
+                    FoodCard(
+                      title: user.uType != UserType.staff
+                          ? "Today's Menu"
+                          : "Events Incharge",
+                      date: today,
+                      onPress: () {
+                        // print("menu");
+                        if (user.uType != UserType.staff)
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => MenuPage()),
                           );
-                        },
-                        image: "assets/menu.png",
-                      )
+                        if (user.uType == UserType.staff)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EventsPage()),
+                          );
+                      },
+                      image: "assets/menu.png",
+                    )
                   ],
                 ),
                 SizedBox(height: height * 0.03),
                 if (user.uType == UserType.resident)
-                Container(
-                  height: height * 0.2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CommonPermission(
-                          title: "WEEKEND PERMISSION",
-                          onPress: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return BackdropFilter(
-                                    filter:
-                                        ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-                                    child: CreatePost(name: user.myUser.name),
-                                  );
-                                });
-                          }),
-                    ],
-                  ),
-                )
+                  Container(
+                    height: height * 0.2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CommonPermission(
+                            title: "WEEKEND PERMISSION",
+                            onPress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 6, sigmaY: 6),
+                                      child: CreatePost(name: user.myUser.name),
+                                    );
+                                  });
+                            }),
+                      ],
+                    ),
+                  )
               ])
             : SpinKitWave(
                 size: height * 0.1,
                 color: Colors.blueGrey[900],
               ),
       ),
-      floatingActionButton: user.uType==UserType.supervisor?  FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AttendancePage()));
-          },
-          backgroundColor: Colors.blueGrey[900],
-          child: Icon(
-            Icons.qr_code,
-            size: height * 0.04,
-            color: Colors.white,
-          )):Container(),
+      floatingActionButton: user.uType == UserType.supervisor
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AttendancePage()));
+              },
+              backgroundColor: Colors.blueGrey[900],
+              child: Icon(
+                Icons.qr_code,
+                size: height * 0.04,
+                color: Colors.white,
+              ))
+          : Container(),
     );
   }
 }

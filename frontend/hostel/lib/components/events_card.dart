@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hostel/components/text_container.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../constants/constants.dart';
+import '../provider/user_provider.dart';
 
 class EventsCard extends StatelessWidget {
   String name;
@@ -14,7 +18,7 @@ class EventsCard extends StatelessWidget {
       required this.location});
   @override
   Widget build(BuildContext context) {
-    print(DateFormat.jm().format(DateFormat("hh:mm:ss").parse(time)));
+    // print(DateFormat.jm().format(DateFormat("hh:mm:ss").parse(time)));
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
@@ -37,7 +41,9 @@ class EventsCard extends StatelessWidget {
 
             ),
           ),
+          if (Provider.of<UserData>(context, listen: false).uType != UserType.staff)
           TextContainer(
+            // text:"",
                 text: "${DateFormat('MMMMEEEEd').format(date)}   ${DateFormat.jm().format(DateFormat("hh:mm:ss").parse(time))}",
                 presetFontSizes: [16,14,12,10],
                 width: width * 0.6,

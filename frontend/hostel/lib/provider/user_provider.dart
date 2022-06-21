@@ -23,6 +23,9 @@ class UserData extends ChangeNotifier {
     else if (u==UserType.residentTutor){
       myUser=uData as ResidentTutor;
     }
+    else if (u==UserType.staff){
+      myUser=uData as Staff;
+    }
     
   }
 

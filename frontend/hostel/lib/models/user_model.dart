@@ -23,3 +23,8 @@ class ResidentTutor extends UserModel {
   String roomNo;
   ResidentTutor({required this.roomNo,name,email,id,phoneNo}) : super(name:name,email:email,phoneNo:phoneNo,id:id);
 }
+
+class Staff extends UserModel {
+  List events;
+  Staff({required this.events,name,email,id,phoneNo}) : super(name:name,email:email,phoneNo:phoneNo,id:id);
+}

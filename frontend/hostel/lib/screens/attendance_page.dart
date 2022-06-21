@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hostel/components/attendance_tile.dart';
 import 'package:hostel/components/common_button.dart';
 import 'package:hostel/components/common_gradient.dart';
@@ -38,8 +39,11 @@ class _AttendancePageState extends State<AttendancePage> {
           "date": DateTime.now().toString(),
         }),
       );
-      print(response.body);
+      // print(response.body);
     }
+    Fluttertoast.showToast(
+      msg:"Attendance marked succesfully"
+    );
   }
 
   void getResidents() async {
@@ -48,7 +52,7 @@ class _AttendancePageState extends State<AttendancePage> {
       Uri.parse("$baseurl/block/residents/${myUser.id}"),
     );
     List residentsJson = jsonDecode(response.body);
-    print(residentsJson);
+    // print(residentsJson);
     setState(() {
       residents = residentsJson;
     });
@@ -116,7 +120,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 ),
               ),
               CommonButton(height: height*0.06, width: width*0.7, onPress: (){
-                print(absentees);
+                // print(absentees);
                 submitAttendance(absentees);
               }, title: 'SUBMIT',type:"purple"),
             ],
