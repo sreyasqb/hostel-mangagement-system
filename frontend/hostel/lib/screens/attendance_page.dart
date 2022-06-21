@@ -6,8 +6,10 @@ import 'package:hostel/components/common_button.dart';
 import 'package:hostel/components/common_gradient.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../components/text_container.dart';
 import '../constants/constants.dart';
+import '../provider/user_provider.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class AttendancePage extends StatefulWidget {
 class _AttendancePageState extends State<AttendancePage> {
   List residents = [];
   List<String> absentees=[];
+ 
   @override
   void initState() {
     getResidents();
@@ -40,8 +43,9 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   void getResidents() async {
+     var myUser=Provider.of<UserData>(context,listen:false).myUser;
     http.Response response = await http.get(
-      Uri.parse("$baseurl/block/residents/S101"),
+      Uri.parse("$baseurl/block/residents/${myUser.id}"),
     );
     List residentsJson = jsonDecode(response.body);
     print(residentsJson);
@@ -54,6 +58,7 @@ class _AttendancePageState extends State<AttendancePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+     var myUser=Provider.of<UserData>(context,listen:false).myUser;
     return Scaffold(
       body: Container(
           padding: EdgeInsets.symmetric(
@@ -64,7 +69,7 @@ class _AttendancePageState extends State<AttendancePage> {
           child: Column(
             children: [
               TextContainer(
-                text: 'B-Block',
+                text: '${myUser.block}-Block',
                 presetFontSizes: [30, 28, 26, 24, 22, 20, 18, 16],
                 width: width * 0.9,
                 textAlign: TextAlign.center,

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hostel/provider/user_provider.dart';
 import 'package:hostel/screens/attendance_page.dart';
+import 'package:hostel/screens/events_page.dart';
 import 'package:hostel/screens/home_page.dart';
 import 'package:hostel/screens/login_page.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         // locale: DevicePreview.locale(context),
         home: SafeArea(
           child:LoginPage(),
+          // child:EventsPage()
           // child:HomePage()
           // child:AttendancePage()
         ),

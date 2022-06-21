@@ -14,6 +14,7 @@ import 'package:hostel/constants/constants.dart';
 import 'package:hostel/models/user_model.dart';
 import 'package:hostel/provider/user_provider.dart';
 import 'package:hostel/screens/attendance_page.dart';
+import 'package:hostel/screens/events_page.dart';
 import 'package:hostel/screens/menu_page.dart';
 import 'package:hostel/screens/mess_token_page.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +22,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
+  String userID;
+  String type;
+  HomePage({required this.userID, required this.type});
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(userID: userID, type: type);
 }
 
 double height = 0, width = 0;
@@ -37,8 +41,11 @@ String id = "hi";
 
 class _HomePageState extends State<HomePage> {
   // File _image;
+  String userID;
+  String type;
+  _HomePageState({required this.userID, required this.type});
 
-  String name = "Sreyas S", rollNo = "20PT01", roomNo = "B-522";
+  // String name = "Sreyas S", rollNo = "20PT01", roomNo = "B-522";
   int balance = 7640;
 
   // Provider.of(context).
@@ -59,22 +66,54 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       id = prefs.getString('userID').toString();
     });
+
+    type = type.toLowerCase();
+    if (type=="resident tutor"){
+      type="rt";
+    }
     http.Response response = await http.get(
-      Uri.parse("$baseurl/resident/20PT01"),
+      Uri.parse("$baseurl/$type/$userID"),
     );
     print(response.body);
     Map userJson = jsonDecode(response.body);
-    Provider.of<UserData>(context, listen: false).setUserType(
-        UserType.resident,
-        Resident(
-          name: userJson['name'],
-          roomNo: userJson['room_no'],
-          id: userJson['id'],
-          email: userJson["email"],
-          phoneNo: userJson["phone_no"],
-          department: userJson["department"],
-          course: userJson['course'],
-        ));
+    if (type == "resident") {
+      Provider.of<UserData>(context, listen: false).setUserType(
+          UserType.resident,
+          Resident(
+            name: userJson['name'],
+            roomNo: userJson['room_no'],
+            id: userJson['id'],
+            email: userJson["email"],
+            phoneNo: userJson["phone_no"],
+            department: userJson["department"],
+            course: userJson['course'],
+          ));
+    }
+    else if (type=="supervisor"){
+      Provider.of<UserData>(context, listen: false).setUserType(
+          UserType.supervisor,
+          Supervisor(
+            name: userJson['name'],
+            id: userJson['id'],
+            email: userJson["email"],
+            phoneNo: userJson["phone_no"],
+            block:userJson["block_id"]
+            // department: userJson["department"],
+          ));
+    }
+    else if (type=="rt"){
+      Provider.of<UserData>(context, listen: false).setUserType(
+          UserType.residentTutor,
+          ResidentTutor(
+            name: userJson['name'],
+            id: userJson['id'],
+            email: userJson["email"],
+            phoneNo: userJson["phone_no"],
+            roomNo: userJson["room_no"]
+            // department: userJson["department"],
+            // course: userJson['course'],
+          ));
+    }
     setState(() {
       loading = false;
     });
@@ -92,7 +131,6 @@ class _HomePageState extends State<HomePage> {
     //   department: 'amcs',
     //   course: 'cs',
     // ));
-    
 
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
@@ -100,7 +138,7 @@ class _HomePageState extends State<HomePage> {
       // backgroundColor: Colors.white,
       body: Container(
         height: height,
-        width:width,
+        width: width,
         padding: EdgeInsets.symmetric(horizontal: width * 0.03),
         decoration: CommonGradient,
         child: !loading
@@ -113,7 +151,14 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            print("notice");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EventsPage()
+                                  
+                              ),
+                            
+                            );
                           },
                           child: Icon(
                             Icons.notifications_active,
@@ -232,7 +277,9 @@ class _HomePageState extends State<HomePage> {
                                 width: width * 0.3,
                                 height: height * 0.05,
                                 child: AutoSizeText(
-                                  user.uType == UserType.supervisor?"":user.myUser.roomNo,
+                                  user.uType == UserType.supervisor
+                                      ? user.myUser.block
+                                      : user.myUser.roomNo,
                                   textAlign: TextAlign.center,
                                   presetFontSizes: [30, 26, 22, 18, 14],
                                   maxLines: 1,
@@ -259,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                 ]),
                 SizedBox(height: height * 0.05),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (user.uType == UserType.resident)
                       FoodCard(
@@ -276,7 +323,9 @@ class _HomePageState extends State<HomePage> {
                         },
                         title: "MESS TOKENS",
                       ),
-                    if (user.uType == UserType.resident)
+                      if (user.uType == UserType.resident)
+                      SizedBox(width:width*0.05),
+                    // if (user.uType == UserType.resident)
                       FoodCard(
                         title: "Today's Menu",
                         date: today,
@@ -292,6 +341,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(height: height * 0.03),
+                if (user.uType == UserType.resident)
                 Container(
                   height: height * 0.2,
                   child: Column(
@@ -306,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                                   return BackdropFilter(
                                     filter:
                                         ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-                                    child: CreatePost(name: name),
+                                    child: CreatePost(name: user.myUser.name),
                                   );
                                 });
                           }),
@@ -315,20 +365,21 @@ class _HomePageState extends State<HomePage> {
                 )
               ])
             : SpinKitWave(
-              size:height*0.1,
-              color: Colors.blueGrey[900],
-            ),
+                size: height * 0.1,
+                color: Colors.blueGrey[900],
+              ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: user.uType==UserType.supervisor?  FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AttendancePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AttendancePage()));
           },
           backgroundColor: Colors.blueGrey[900],
           child: Icon(
             Icons.qr_code,
             size: height * 0.04,
             color: Colors.white,
-          )),
+          )):Container(),
     );
   }
 }
