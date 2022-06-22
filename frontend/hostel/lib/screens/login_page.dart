@@ -19,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   String connectUrl = "";
 
   Future<http.Response> sendInfo(String id, String password) async {
+    print(id);
+    print(password);
     final response = await http.post(
       Uri.parse('$baseurl/login'),
       headers: <String, String>{
@@ -315,6 +317,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: screenheight * 0.04),
               InkWell(
                 onTap: () async {
+                  // print('hi');
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(builder: (context) => HomePage()),
